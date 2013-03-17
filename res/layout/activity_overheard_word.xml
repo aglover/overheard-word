@@ -18,7 +18,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="60dp"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp" 
+        android:text="Word"/>
 
     <TextView
         android:id="@+id/word_study_part_of_speech"
@@ -29,7 +30,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp" 
+        android:text="Part of Speech"/>
 
     <TextView
         android:id="@+id/word_study_definition"
@@ -39,9 +41,10 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp" 
+        android:text="A Definition that is a sentence or two."/>
 
-    <LinearLayout
+   <!--  <LinearLayout
         android:id="@+id/widget62"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +66,6 @@
             android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"
             android:text="@string/take_quiz" />
-    </LinearLayout>
+    </LinearLayout> -->
 
 </LinearLayout>
