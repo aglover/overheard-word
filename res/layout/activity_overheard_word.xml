@@ -42,7 +42,7 @@
         android:layout_marginRight="40dp"
         android:textColor="@color/black"
         android:textSize="18sp" 
-        android:text="A Definition that is a sentence or two."/>
+        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."/>
 
    <!--  <LinearLayout
         android:id="@+id/widget62"
