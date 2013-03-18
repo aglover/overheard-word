@@ -21,27 +21,7 @@ public class OverheardWord extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overheard_word);
 
-		gestureDetector = new GestureDetector(new SimpleOnGestureListener() {
-			
-			private SwipeDetector detector = new SwipeDetector();
-			
-			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-				try {
-					if (detector.isSwipeDown(e1, e2, velocityY)) {
-						return false;
-					} else if (detector.isSwipeUp(e1, e2, velocityY)) {
-						Toast.makeText(getApplicationContext(), "up Swipe", Toast.LENGTH_SHORT).show();
-					}else if (detector.isSwipeLeft(e1, e2, velocityX)) {
-						Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
-					} else if (detector.isSwipeRight(e1, e2, velocityX)) {
-						Toast.makeText(getApplicationContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
-					}
-				} catch (Exception e) {
-					// nothing
-				}
-				return false;
-			}
-		});
+		gestureDetector = initGestureDetector();
 
 		View view = findViewById(R.id.LinearLayout1);
 
@@ -53,6 +33,34 @@ public class OverheardWord extends Activity {
 		view.setOnTouchListener(new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				return gestureDetector.onTouchEvent(event);
+			}
+		});
+	}
+
+	private GestureDetector initGestureDetector() {
+		return new GestureDetector(new SimpleOnGestureListener() {
+			
+			private SwipeDetector detector = new SwipeDetector();
+			
+			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				try {
+					if (detector.isSwipeDown(e1, e2, velocityY)) {
+						return false;
+					} else if (detector.isSwipeUp(e1, e2, velocityY)) {
+						showToast("Up Swipe");
+					}else if (detector.isSwipeLeft(e1, e2, velocityX)) {
+						showToast("Left Swipe");
+					} else if (detector.isSwipeRight(e1, e2, velocityX)) {
+						showToast("Right Swipe");
+					}
+				} catch (Exception e) {
+					// nothing
+				}
+				return false;
+			}
+			
+			private void showToast(String phrase){
+				Toast.makeText(getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
