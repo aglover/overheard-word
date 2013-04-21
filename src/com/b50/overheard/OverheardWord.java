@@ -38,6 +38,7 @@ public class OverheardWord extends Activity {
 		});
 	}
 
+
 	private GestureDetector initGestureDetector() {
 		return new GestureDetector(new SimpleOnGestureListener() {
 									
