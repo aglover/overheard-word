@@ -8,5 +8,6 @@
 
     <string name="next_word">Next word</string>
     <string name="take_quiz">Take quiz</string>
+    <string name="quit_menu">Quit</string>
 
 </resources>

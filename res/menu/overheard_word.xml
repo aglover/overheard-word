@@ -1,8 +1,14 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/action_settings"
+     <item
+        android:id="@+id/quit_item"
         android:orderInCategory="100"
-        android:title="nothing_for_now"/>
-
-</menu>
+        android:icon="@drawable/quit_icon"
+        
+        android:title="@string/quit_menu"/>
+     
+     <!--android:showAsAction="always"  -->
+     <!--android:showAsAction="never"  -->
+     
+ </menu>
