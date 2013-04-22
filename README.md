@@ -11,6 +11,8 @@ Clone the repository and import the project into Eclipse as an Android Applicati
 
 * [The Disco Blog](http://thediscoblog.com/)
 * [Mobile for the masses: A gentle introduction to Android](http://www.ibm.com/developerworks/library/j-mobileforthemasses1/)
+* [Urban Stories icons by LazyCrazy](http://artdesigner.lv/top/download)
+* [Android Asset Studio](http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html)
 
 # License
 
