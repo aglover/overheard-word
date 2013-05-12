@@ -93,7 +93,6 @@ public class OverheardWord extends Activity {
 					if (detector.isDownSwipe()) {
 						return false;
 					} else if (detector.isUpSwipe()) {
-//						Toast.makeText(getApplicationContext(), "up Swipe", Toast.LENGTH_SHORT).show();
 						finish();
 					}else if (detector.isLeftSwipe()) {
 						Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
