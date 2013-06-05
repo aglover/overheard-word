@@ -1,5 +1,15 @@
 package com.b50.overheard;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +20,13 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.b50.gesticulate.SwipeDetector;
+import com.b50.savvywords.Definition;
+import com.b50.savvywords.Word;
+import com.b50.savvywords.WordStudyEngine;
 
 public class OverheardWord extends Activity {
 
@@ -28,6 +42,59 @@ public class OverheardWord extends Activity {
 		setContentView(R.layout.activity_overheard_word);
 
 		initializeGestures();
+
+		List<Word> words = buildWordList();
+		WordStudyEngine engine = WordStudyEngine.getInstance(words);
+
+		Word aWord = engine.getWord();
+		TextView wordView = (TextView) findViewById(R.id.word_study_word);
+		wordView.setText(aWord.getSpelling());
+
+		Definition firstDef = aWord.getDefinitions().get(0);
+		TextView wordPartOfSpeechView = (TextView) findViewById(R.id.word_study_part_of_speech);
+		wordPartOfSpeechView.setText(firstDef.getPartOfSpeech());
+
+		TextView defView = (TextView) findViewById(R.id.word_study_definition);
+		defView.setText(formatDefinition(aWord));
+	}
+
+	public String formatDefinition(final Word startingWord) {
+		return formatDefinition(startingWord.getDefinitions().get(0).getDefinition());
+	}
+
+	public String formatDefinition(final String definition) {
+		String firstChar = definition.substring(0, 1).toUpperCase(Locale.ENGLISH);
+		StringBuffer buff = new StringBuffer(firstChar);
+		buff.append(definition.substring(1, (definition.length() + 0)));
+		if (!definition.endsWith(".")) {
+			buff.append(".");
+		}
+		return buff.toString();
+	}
+
+	private List<Word> buildWordList() {
+		InputStream resource = getApplicationContext().getResources().openRawResource(R.raw.words);
+		List<Word> words = new ArrayList<Word>();
+		try {
+			StringBuilder sb = new StringBuilder();
+			BufferedReader br = new BufferedReader(new InputStreamReader(resource));
+			String read = br.readLine();
+
+			while (read != null) {
+				sb.append(read);
+				read = br.readLine();
+			}
+
+			JSONObject document = new JSONObject(sb.toString());
+			JSONArray allWords = document.getJSONArray("words");
+			for (int i = 0; i < allWords.length(); i++) {
+				words.add(Word.manufacture(allWords.getJSONObject(i)));
+			}
+
+		} catch (Exception e) {
+			Log.e(APP, "Exception in getInstance for WordEngine: " + e.getLocalizedMessage());
+		}
+		return words;
 	}
 
 	private void initializeGestures() {
@@ -56,7 +123,7 @@ public class OverheardWord extends Activity {
 					if (detector.isDownSwipe()) {
 						return false;
 					} else if (detector.isUpSwipe()) {
-						//finish();
+						// finish();
 						return false;
 					} else if (detector.isLeftSwipe()) {
 						Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
