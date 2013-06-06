@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.b50.gesticulate.SwipeDetector;
 import com.b50.savvywords.Definition;
@@ -32,6 +32,9 @@ public class OverheardWord extends Activity {
 
 	private static final String APP = "overheardword";
 	private GestureDetector gestureDetector;
+	private static WordStudyEngine engine;
+	private static LinkedList<Word> wordsViewed;
+	private static int viewPosition = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +47,22 @@ public class OverheardWord extends Activity {
 		initializeGestures();
 
 		List<Word> words = buildWordList();
-		WordStudyEngine engine = WordStudyEngine.getInstance(words);
 
-		Word aWord = engine.getWord();
+		if (engine == null) {
+			engine = WordStudyEngine.getInstance(words);
+		}
+
+		if (wordsViewed == null) {
+			wordsViewed = new LinkedList<Word>();
+		}
+
+		Word firstWord = engine.getWord();
+		wordsViewed.add(firstWord);
+		viewPosition++;
+		displayWord(firstWord);
+	}
+
+	private void displayWord(Word aWord) {
 		TextView wordView = (TextView) findViewById(R.id.word_study_word);
 		wordView.setText(aWord.getSpelling());
 
@@ -58,11 +74,11 @@ public class OverheardWord extends Activity {
 		defView.setText(formatDefinition(aWord));
 	}
 
-	public String formatDefinition(final Word startingWord) {
+	private String formatDefinition(final Word startingWord) {
 		return formatDefinition(startingWord.getDefinitions().get(0).getDefinition());
 	}
 
-	public String formatDefinition(final String definition) {
+	private String formatDefinition(final String definition) {
 		String firstChar = definition.substring(0, 1).toUpperCase(Locale.ENGLISH);
 		StringBuffer buff = new StringBuffer(firstChar);
 		buff.append(definition.substring(1, (definition.length() + 0)));
@@ -123,12 +139,27 @@ public class OverheardWord extends Activity {
 					if (detector.isDownSwipe()) {
 						return false;
 					} else if (detector.isUpSwipe()) {
-						// finish();
 						return false;
 					} else if (detector.isLeftSwipe()) {
-						Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+						if (listSizeAndPositionEql()) {
+							viewPosition++;
+							Word wrd = engine.getWord();
+							wordsViewed.add(wrd);
+							displayWord(wrd);
+						} else if (wordsViewed.size() > (viewPosition + 1)) {
+							if (viewPosition == -1) {
+								viewPosition++;
+							}
+							displayWord(wordsViewed.get(++viewPosition));
+						} else {
+							return false;
+						}
 					} else if (detector.isRightSwipe()) {
-						Toast.makeText(getApplicationContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+						if (wordsViewed.size() > 0 && (listSizeAndPositionEql() || (viewPosition >= 0))) {
+							displayWord(wordsViewed.get(--viewPosition));
+						} else {
+							return false;
+						}
 					}
 				} catch (Exception e) {
 					// nothing
@@ -189,5 +220,9 @@ public class OverheardWord extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.d(APP, "onDestroy Invoked");
+	}
+
+	private boolean listSizeAndPositionEql() {
+		return wordsViewed.size() == (viewPosition + 1);
 	}
 }
