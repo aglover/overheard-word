@@ -9,5 +9,9 @@
     <string name="next_word">Next word</string>
     <string name="take_quiz">Take quiz</string>
     <string name="quit_menu">Quit</string>
+    <string name="quit_quiz">Quit Quiz</string>
+    <string name="title_activity_overheard_quiz">OverheardQuiz</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

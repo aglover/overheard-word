@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -139,7 +140,7 @@ public class OverheardWord extends Activity {
 					if (detector.isDownSwipe()) {
 						return false;
 					} else if (detector.isUpSwipe()) {
-						return false;
+						startActivity(new Intent(getApplicationContext(), OverheardQuiz.class));
 					} else if (detector.isLeftSwipe()) {
 						if (listSizeAndPositionEql()) {
 							viewPosition++;
